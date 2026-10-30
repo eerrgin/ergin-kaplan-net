@@ -288,9 +288,14 @@ globalThis.EKN = (function () {
     tickClock(); setInterval(tickClock, 15000);
 
     document.querySelectorAll("[data-tab]").forEach((b) => b.addEventListener("click", () => {
-      document.querySelectorAll("[data-tab]").forEach((x) => x.classList.toggle("on", x === b));
+      const target = b.getAttribute("data-tab") || "all";
+      document.querySelectorAll("[data-tab]").forEach((x) => {
+        const active = x === b;
+        x.classList.toggle("on", active);
+        x.setAttribute("aria-pressed", active ? "true" : "false");
+      });
       document.querySelectorAll("[data-shelf]").forEach((s) => {
-        s.hidden = s.getAttribute("data-shelf") !== b.getAttribute("data-tab");
+        s.hidden = target !== "all" && s.getAttribute("data-shelf") !== target;
       });
     }));
 
