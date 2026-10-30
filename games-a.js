@@ -109,7 +109,7 @@
       E.drawParts(particles, dt);
       wave = 1 + Math.floor(score / 100);
       E.setScore(score + " · ♥ " + ship.hp + " · DALGA " + wave);
-      if (ship.hp <= 0) finish("Gemi düştü", "Koridor kapandı. Toplam puanın: " + score, "Yıldız Koridoru");
+      if (ship.hp <= 0) finish("yildiz", score, "Gemi düştü", "Koridor kapandı. Toplam puanın: " + score);
     }, function () {
       drawStars(sky, elapsed * 18);
       E.rect(0, 374, W, 26, "#0b1b24");
@@ -178,7 +178,7 @@
       if (Math.abs(p1.x - p2.x) < 40) { const mid = (p1.x + p2.x) / 2; p1.x = mid - 21; p2.x = mid + 21; }
       E.drawParts(sparks, dt);
       E.setScore("KAPLAN " + p1.hp + "  :  " + p2.hp + " RIZA");
-      if (p1.hp <= 0 || p2.hp <= 0) finish("Maç bitti", (p1.hp > p2.hp ? "Kaplan" : "Rakip") + " ringin galibi. Vuruş puanı: " + score, "Ring Kaplan");
+      if (p1.hp <= 0 || p2.hp <= 0) finish("ring", score, "Maç bitti", (p1.hp > p2.hp ? "Kaplan" : "Rakip") + " ringin galibi. Vuruş puanı: " + score);
     }, function () {
       E.clear("#101015"); E.rect(0, 0, W, 72, "#161d29");
       for (let x = 0; x < W; x += 32) E.rect(x, 80, 1, 270, "#202a34");
@@ -223,7 +223,7 @@
         acc = 0; dir = next;
         const head = {x:snake[0].x+dir.x,y:snake[0].y+dir.y};
         if (head.x < 0 || head.x >= cols || head.y < 0 || head.y >= rows || snake.some(function (s) { return s.x === head.x && s.y === head.y; })) {
-          dead = true; finish("Oyun bitti", "Yılan " + score + " çay bardağı topladı.", "Ergin Yılan", "Puanın: " + score); return;
+          dead = true; finish("yilan", score, "Oyun bitti", "Yılan " + score + " çay bardağı topladı."); return;
         }
         snake.unshift(head);
         if (head.x === food.x && head.y === food.y) { score += 10; placeFood(); E.sfx(520, 0.06, "square", 0.025); }
@@ -268,10 +268,10 @@
       }
       if (ball.y > H + 15) {
         lives--; launched = false; ball.y = 345; ball.vx = E.rand(-150,150); ball.vy = -205;
-        if (lives <= 0) finish("Son top düştü", "Duvarın arkasında " + score + " puan bıraktın.", "Tuğla Duvarı", "Puanın: " + score);
+        if (lives <= 0) finish("tugla", score, "Son top düştü", "Duvarın arkasında " + score + " puan bıraktın.");
       }
       E.setScore(score + " puan · " + lives + " top");
-      if (!bricks.length) finish("Duvar yıkıldı!", "Mahallenin en iyi raketi sensin. Puan: " + score, "Tuğla Duvarı");
+      if (!bricks.length) finish("tugla", score, "Duvar yıkıldı!", "Mahallenin en iyi raketi sensin. Puan: " + score);
     }, function () {
       E.clear("#10101a"); E.rect(0, 0, W, 30, "#202333"); E.text("KAPLAN RAKETİ  /  TUR " + (1 + Math.floor(score / 500)), 18, 9, 11, "#d3c2a0");
       bricks.forEach(function (b) { E.rect(b.x, b.y, b.w, b.h, b.color); E.rect(b.x + 3, b.y + 3, b.w - 6, 3, "#ffffff"); });
@@ -309,7 +309,7 @@
         if (ball.x > W + 10) { scoreA++; serve(1); }
       }
       E.setScore(scoreA + "  :  " + scoreB);
-      if (scoreA >= 7 || scoreB >= 7) finish("Maç bitti", (scoreA > scoreB ? "Sen kazandın!" : "Rıza kazandı.") + " Set: " + scoreA + " - " + scoreB, "Mahalle Tenisi", scoreA + " - " + scoreB);
+      if (scoreA >= 7 || scoreB >= 7) finish("tenis", Math.max(scoreA,scoreB), "Maç bitti", (scoreA > scoreB ? "Sen kazandın!" : "Rıza kazandı.") + " Set: " + scoreA + " - " + scoreB);
     }, function () {
       E.clear("#071c1b"); E.rect(0, 0, W, H, "#0b3732"); E.rect(14, 14, W - 28, H - 28, "#d7cba1");
       E.rect(24, 24, W - 48, H - 48, "#16746b"); E.rect(318, 24, 3, H - 48, "#d7cba1");
@@ -360,7 +360,7 @@
         if (s.vy > 0 && Math.abs(s.x-player.x)<13 && Math.abs(s.y-player.y)<16) { shells.splice(i,1); player.hp--; E.burst(sparks,player.x,player.y,12,"#e25b4a"); }
       }
       E.drawParts(sparks,dt); E.setScore(score + " puan · zırh " + player.hp);
-      if (player.hp <= 0) finish("Tank devre dışı", "Mahalle savunması sona erdi. Puan: " + score, "Kaplan Tank");
+      if (player.hp <= 0) finish("tank", score, "Tank devre dışı", "Mahalle savunması sona erdi. Puan: " + score);
     }, function () {
       E.clear("#121a14");
       for (let x=15;x<W;x+=42) E.rect(x,0,1,H,"#1d2c21");
@@ -390,7 +390,7 @@
         if (t.y>H+60) {traffic.splice(i,1);score+=5;}
       }
       E.setScore(score+" puan · "+Math.floor(speed)+" km/s");
-      if (dead) finish("Gece vardiyası sona erdi","Sokağın sonunda "+score+" puan topladın.","Gece Vardiyası","Puanın: "+score);
+      if (dead) finish("vardiya",score,"Gece vardiyası sona erdi","Sokağın sonunda "+score+" puan topladın.");
     }, function () {
       E.clear("#121a1d"); E.rect(145,0,350,H,"#202a2c"); E.rect(150,0,5,H,"#c5b585"); E.rect(485,0,5,H,"#c5b585");
       for(let y=0;y<H;y+=46){E.rect(260,y+((elapsed*speed)%46),4,23,"#d8c991");E.rect(375,y+((elapsed*speed)%46),4,23,"#d8c991");}
@@ -415,7 +415,7 @@
       }
       if(hit("Space")){for(let i=balloons.length-1;i>=0;i--){const b=balloons[i];if(Math.hypot(320-b.x,200-b.y)<b.r+20){score+=10;balloons.splice(i,1);}}}
       E.drawParts(particles,dt);E.setScore(score+" puan · "+Math.ceil(timer)+" sn");
-      if(timer<=0)finish("Şenlik bitti","Patlayan balon: "+score+" puan · Kaçan balon: "+misses,"Balon Patlat","Toplam: "+score+" puan");
+      if(timer<=0)finish("balon",score,"Şenlik bitti","Patlayan balon: "+score+" puan · Kaçan balon: "+misses);
     },function(){
       E.clear("#111629");for(let i=0;i<16;i++)E.rect(i*42,0,1,H,"#1b253b");
       E.rect(0,365,W,35,"#30262a");E.text("MAHALLE ŞENLİĞİ  ·  BALON STANDI",320,12,12,"#e8c88d","center");
