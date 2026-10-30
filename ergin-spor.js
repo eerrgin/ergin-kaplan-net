@@ -138,6 +138,7 @@
       }
       E.setScore(score+" puan · "+shots+" vuruş · faul "+scratch);
     },function(){
+      const cue=balls[0];
       E.clear("#101317");const c=E.ctx;
       c.fillStyle="#4a3020";c.fillRect(38,25,564,350);
       c.fillStyle="#155b43";c.fillRect(55,42,530,316);
