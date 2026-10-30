@@ -10,6 +10,8 @@ Ergin Kaplan tarafından tasarlanan, tarayıcıda doğrudan oynanabilen 18 özg�
 **Dönem:** 2003 atmosferi  
 **Oyun sayısı:** 18
 
+**Oyna:** https://eerrgin.github.io/ergin-kaplan-net/
+
 ## Oyun kataloğu
 
 ### Ergin Lab
