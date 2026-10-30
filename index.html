@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="author" content="Ergin Kaplan">
+<meta name="description" content="Ergin Kaplan Net — 2003 Kervan Mahallesi internet kafe. Özgün salon oyunları. © Ergin Kaplan">
+<title>Ergin Kaplan Net — 2003 İnternet Kafe</title>
+<style>
+:root {
+  --bg: #0c100e;
+  --panel: #141a16;
+  --line: #2a3a2e;
+  --fg: #d4e0c8;
+  --muted: #7a8a70;
+  --amber: #e8a838;
+  --cyan: #5ec4b8;
+  --danger: #c45c4a;
+  --wood: #3d2e1e;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; background: var(--bg); color: var(--fg); font-family: "Courier New", monospace; }
+body { display: flex; flex-direction: column; min-height: 100vh; }
+.scanlines::after {
+  content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 9999;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,.12) 2px, rgba(0,0,0,.12) 4px);
+}
+header {
+  background: linear-gradient(180deg, #1a2218, #0f1410);
+  border-bottom: 3px solid var(--amber);
+  padding: 10px 16px;
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+}
+.logo { font-size: 1.35rem; font-weight: bold; color: var(--amber); letter-spacing: 1px; text-shadow: 0 0 8px rgba(232,168,56,.4); }
+.logo small { display: block; font-size: .7rem; color: var(--muted); font-weight: normal; }
+.meta { font-size: .75rem; color: var(--muted); text-align: right; }
+.meta strong { color: var(--cyan); }
+main { flex: 1; display: flex; flex-direction: column; padding: 12px; max-width: 960px; margin: 0 auto; width: 100%; }
+.lobby { display: grid; grid-template-columns: 1fr 200px; gap: 12px; }
+@media (max-width: 700px) { .lobby { grid-template-columns: 1fr; } }
+.shelf { margin-bottom: 14px; }
+.shelf h2 {
+  font-size: .85rem; color: var(--amber); border-bottom: 1px solid var(--line);
+  padding-bottom: 4px; margin-bottom: 8px; letter-spacing: 2px; text-transform: uppercase;
+}
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; }
+.card {
+  background: var(--panel); border: 2px solid var(--line); border-radius: 4px;
+  padding: 10px 8px; cursor: pointer; transition: border-color .15s, transform .1s;
+  text-align: center; min-height: 72px; display: flex; flex-direction: column; justify-content: center;
+}
+.card:hover, .card:focus { border-color: var(--amber); transform: translateY(-2px); outline: none; }
+.card .name { font-size: .9rem; color: var(--fg); font-weight: bold; }
+.card .blurb { font-size: .7rem; color: var(--muted); margin-top: 4px; }
+.side {
+  background: var(--panel); border: 2px solid var(--wood); border-radius: 4px; padding: 10px;
+  font-size: .75rem;
+}
+.side h3 { color: var(--amber); margin-bottom: 6px; font-size: .8rem; }
+.side table { width: 100%; border-collapse: collapse; }
+.side td { padding: 2px 0; color: var(--muted); }
+.side td:last-child { text-align: right; color: var(--fg); }
+.sign { margin-top: 12px; padding-top: 8px; border-top: 1px dashed var(--line); color: var(--muted); font-size: .65rem; line-height: 1.4; }
+.game-view { display: none; flex-direction: column; height: 100%; }
+.game-view.active { display: flex; }
+.game-bar {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  background: var(--panel); border: 2px solid var(--line); padding: 8px 12px; margin-bottom: 8px; border-radius: 4px;
+}
+.game-bar button {
+  background: var(--line); color: var(--fg); border: 1px solid var(--muted);
+  padding: 6px 12px; cursor: pointer; font-family: inherit; font-size: .8rem; border-radius: 3px;
+}
+.game-bar button:hover { border-color: var(--amber); color: var(--amber); }
+.game-bar .title { flex: 1; color: var(--amber); font-weight: bold; }
+.game-bar .score { color: var(--cyan); font-size: .85rem; }
+#stage-wrap {
+  position: relative; flex: 1; background: #000; border: 3px solid #333;
+  border-radius: 4px; overflow: hidden; min-height: 320px;
+  box-shadow: inset 0 0 40px rgba(0,0,0,.8);
+}
+#stage { display: block; width: 100%; height: 100%; image-rendering: pixelated; }
+.overlay {
+  position: absolute; inset: 0; background: rgba(0,0,0,.75);
+  display: none; align-items: center; justify-content: center; flex-direction: column; gap: 12px;
+  color: var(--fg); text-align: center; z-index: 10;
+}
+.overlay.show { display: flex; }
+.overlay h2 { color: var(--amber); font-size: 1.4rem; }
+.overlay p { color: var(--muted); font-size: .85rem; max-width: 280px; }
+.overlay button {
+  background: var(--amber); color: #111; border: none; padding: 10px 24px;
+  font-family: inherit; font-weight: bold; cursor: pointer; border-radius: 3px;
+}
+footer {
+  text-align: center; padding: 10px; font-size: .65rem; color: var(--muted);
+  border-top: 1px solid var(--line); background: #0a0e0b;
+}
+footer strong { color: var(--amber); }
+.hint { font-size: .7rem; color: var(--muted); margin-top: 6px; }
+</style>
+</head>
+<body class="scanlines">
+<header>
+  <div class="logo">ERGİN KAPLAN NET <small>Kervan Mahallesi · Kaplan Sokak No: 7 · 2003</small></div>
+  <div class="meta">Masa 7 · <strong id="clock">--:--</strong><br>Çay bedava</div>
+</header>
+
+<main>
+  <div id="lobby" class="lobby">
+    <div>
+      <div class="shelf">
+        <h2>Arcade</h2>
+        <div class="grid" id="arcade"></div>
+      </div>
+      <div class="shelf">
+        <h2>Zeka</h2>
+        <div class="grid" id="zeka"></div>
+      </div>
+      <div class="shelf">
+        <h2>Masa</h2>
+        <div class="grid" id="masa"></div>
+      </div>
+    </div>
+    <aside class="side">
+      <h3>Fiyat Listesi</h3>
+      <table>
+        <tr><td>Saat</td><td>1,00 TL</td></tr>
+        <tr><td>Gece</td><td>0,75 TL</td></tr>
+        <tr><td>Tost</td><td>1,50 TL</td></tr>
+        <tr><td>Kola</td><td>1,00 TL</td></tr>
+        <tr><td>Çay</td><td>bedava</td></tr>
+      </table>
+      <div class="sign">
+        Bu salon ve içindeki oyunlar<br>
+        <strong style="color:var(--amber)">Ergin Kaplan</strong>'a aittir.<br>
+        İzinsiz kopyalanamaz.
+      </div>
+    </aside>
+  </div>
+
+  <div id="game-view" class="game-view">
+    <div class="game-bar">
+      <button type="button" id="btn-back">← Salon</button>
+      <span class="title" id="g-title">—</span>
+      <span class="score" id="g-score">Skor: 0</span>
+      <button type="button" id="btn-restart">Yeniden</button>
+    </div>
+    <div id="stage-wrap">
+      <canvas id="stage" width="480" height="360"></canvas>
+      <div class="overlay" id="overlay">
+        <h2 id="ov-title">Bitti</h2>
+        <p id="ov-msg"></p>
+        <button type="button" id="ov-btn">Tekrar Oyna</button>
+      </div>
+    </div>
+    <p class="hint" id="g-hint"></p>
+  </div>
+</main>
+
+<footer>
+  © <strong>Ergin Kaplan</strong> — Ergin Kaplan Net · 2003 Kervan Mahallesi<br>
+  Bu salon ve içindeki oyunlar Ergin Kaplan'a aittir. İzinsiz kopyalanamaz.
+</footer>
+
+<script src="games.js"></script>
+</body>
+</html>
