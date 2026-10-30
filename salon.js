@@ -9,24 +9,24 @@ globalThis.EKN = (function () {
   ctx.imageSmoothingEnabled = false;
 
   const GAMES = [
-    { id: "yildiz", name: "Ergin Lab: Yıldız Koridoru", shelf: "lab", blurb: "Uç ve vur", hint: "Oklar veya sürükle. Basılı tutunca ateş. Çay = seri atış." },
-    { id: "ring", name: "Ergin Lab: Ring Kaplan", shelf: "lab", blurb: "Karşılıklı dövüş", hint: "A/D yürü, W zıpla, F yumruk, G tekme, S blok. 2. oyuncu: oklar, K yumruk, L tekme, aşağı blok." },
-    { id: "yilan", name: "Yılan", shelf: "arcade", blurb: "Klasik yılan", hint: "Oklar. Yem ye, kendini yeme." },
-    { id: "tugla", name: "Tuğla Kırıcı", shelf: "arcade", blurb: "Breakout", hint: "Sol/sağ veya fare. Boşluk top." },
-    { id: "tenis", name: "Masa Tenisi", shelf: "arcade", blurb: "Pong", hint: "W/S veya oklar." },
-    { id: "tank", name: "Tank Savaşı", shelf: "arcade", blurb: "2 kişilik tank", hint: "WASD + F ateş / oklar + K ateş." },
-    { id: "vardiya", name: "Vardiya", shelf: "arcade", blurb: "Trafik kaçış", hint: "Sol/sağ şerit değiştir." },
-    { id: "balon", name: "Balon Patlat", shelf: "arcade", blurb: "Tıkla patlat", hint: "Fare veya dokun." },
-    { id: "refleks", name: "Refleks", shelf: "zeka", blurb: "Hız testi", hint: "Yeşil olunca tıkla." },
-    { id: "labirent", name: "Labirent", shelf: "zeka", blurb: "Çıkış bul", hint: "Oklar. Altın topla." },
-    { id: "mayin", name: "Mayın Tarlası", shelf: "zeka", blurb: "Mayın tarla", hint: "Sol tık aç, sağ bayrak." },
-    { id: "renk", name: "Renk Eşle", shelf: "zeka", blurb: "Match-3", hint: "Komşu takas et." },
-    { id: "hafiza", name: "Hafıza", shelf: "zeka", blurb: "Kart eşle", hint: "İki kart aç." },
-    { id: "lira", name: "Lira 2048", shelf: "zeka", blurb: "2048", hint: "Oklar kaydır." },
-    { id: "dort", name: "Dört Taş", shelf: "masa", blurb: "Connect 4", hint: "Tıkla sütun." },
-    { id: "uctas", name: "Üç Taş", shelf: "masa", blurb: "XOX", hint: "Tıkla kutu." },
-    { id: "dart", name: "Dart", shelf: "masa", blurb: "Hedef atış", hint: "Boşluk / tıkla güç." },
-    { id: "penalti", name: "Penaltı", shelf: "masa", blurb: "Gol at", hint: "Yön seç, güç." }
+    { id: "yildiz", name: "Yıldız Koridoru", shelf: "lab", blurb: "Derin uzay savunması", hint: "Oklar veya WASD ile uç. Boşluk / F ile ateş." },
+    { id: "ring", name: "Ring Kaplan", shelf: "lab", blurb: "Mahalle usulü dövüş", hint: "1. oyuncu: A/D, W, F/G. 2. oyuncu: oklar, K/L. Aynı klavyede." },
+    { id: "yilan", name: "Ergin Yılan", shelf: "arcade", blurb: "Çay bardağını yakala", hint: "Ok tuşlarıyla yön değiştir. Duvara ve kendine çarpma." },
+    { id: "tugla", name: "Tuğla Duvarı", shelf: "arcade", blurb: "Raketini konuştur", hint: "Sol/sağ veya fare ile raketi taşı. Boşlukla servis." },
+    { id: "tenis", name: "Mahalle Tenisi", shelf: "arcade", blurb: "Rıza'ya karşı ilk 7 sayı", hint: "W/S veya yukarı/aşağı oklarla raketi taşı." },
+    { id: "tank", name: "Kaplan Tank", shelf: "arcade", blurb: "Mahalle savunma hattı", hint: "WASD veya oklarla hareket et. F / Boşluk ile ateş." },
+    { id: "vardiya", name: "Gece Vardiyası", shelf: "arcade", blurb: "Kervan Sokak'ta gece sürüşü", hint: "Sol/sağ oklarla şerit değiştir, trafiğe çarpma." },
+    { id: "balon", name: "Balon Patlat", shelf: "arcade", blurb: "Mahalle şenliği", hint: "Fareyle veya dokunarak balonları patlat. 45 saniye." },
+    { id: "refleks", name: "Refleks Testi", shelf: "zeka", blurb: "Elin mi hızlı, gözün mü?", hint: "Ekran yeşile dönünce tıkla veya Boşluk'a bas." },
+    { id: "labirent", name: "Nöbet Labirenti", shelf: "zeka", blurb: "Dört fişi topla, çıkışı bul", hint: "Oklar veya WASD ile hareket et. Dört fişi topla." },
+    { id: "mayin", name: "Mayın Tarlası", shelf: "zeka", blurb: "İlk kare güvenli", hint: "Sol tık açar, sağ tık bayrak koyar." },
+    { id: "renk", name: "Renk Patlat", shelf: "zeka", blurb: "Taşları üçlü eşleştir", hint: "Yan yana iki taşı seçerek yer değiştir." },
+    { id: "hafiza", name: "Hafıza Kartları", shelf: "zeka", blurb: "Sekiz çifti bul", hint: "İki kart aç. Aynı harfleri eşleştir." },
+    { id: "lira", name: "Lira Yığ", shelf: "zeka", blurb: "Eski milyonları birleştir", hint: "Ok tuşlarıyla taşları kaydır. Aynı değerler birleşir." },
+    { id: "dort", name: "Dört Sıra", shelf: "masa", blurb: "Rıza'ya karşı dört taşı diz", hint: "Sütun seç. Dört taşı yatay, dikey veya çapraz sırala." },
+    { id: "uctas", name: "Üç Taş", shelf: "masa", blurb: "X sen, O Rıza", hint: "Boş kareye tıkla. Üç taşı sıraya diz." },
+    { id: "dart", name: "Dart Ustası", shelf: "masa", blurb: "Beş atış, tek hedef", hint: "Hedefe tıkla. Merkeze yaklaştıkça puan yükselir." },
+    { id: "penalti", name: "Penaltı Nöbeti", shelf: "masa", blurb: "Kaleciyi şaşırt", hint: "Kaleye tıklayarak köşe seç. Beş penaltı hakkın var." }
   ];
 
   const starters = Object.create(null);
@@ -111,13 +111,49 @@ globalThis.EKN = (function () {
     const c = document.createElement("canvas"); c.width = 64; c.height = 40;
     const g = c.getContext("2d"); g.imageSmoothingEnabled = false;
     g.fillStyle = "#06110c"; g.fillRect(0, 0, 64, 40);
-    if (id === "yildiz") { g.fillStyle = "#7ee0d2"; g.fillRect(28, 28, 8, 6); g.fillStyle = "#e25b4a"; for (let i = 0; i < 5; i++) g.fillRect(8 + i * 10, 6 + (i % 3) * 4, 6, 6); }
-    else if (id === "ring") { g.fillStyle = "#e8a838"; g.fillRect(12, 12, 14, 22); g.fillStyle = "#e25b4a"; g.fillRect(38, 12, 14, 22); }
-    else if (id === "yilan") { g.fillStyle = "#3d9a4a"; for (let i = 0; i < 6; i++) g.fillRect(8 + i * 8, 16, 7, 7); g.fillStyle = "#e25b4a"; g.fillRect(52, 16, 7, 7); }
-    else { g.fillStyle = "#8ea894"; g.fillRect(20, 12, 24, 16); g.fillStyle = "#e8a838"; g.fillRect(26, 16, 12, 8); }
+    const bar = (x,y,w,h,color) => { g.fillStyle=color; g.fillRect(x,y,w,h); };
+    if (id === "yildiz") {
+      bar(28,28,8,6,"#7ee0d2"); bar(27,10,10,18,"#2c8e9a"); bar(30,5,4,9,"#e8a838");
+      for(let i=0;i<5;i++)bar(6+i*12,5+(i%3)*5,5,5,"#e25b4a");
+    } else if (id === "ring") {
+      bar(10,12,15,22,"#287b83");bar(39,12,15,22,"#a84c44");bar(12,7,11,8,"#c78b68");bar(41,7,11,8,"#b97d60");
+    } else if (id === "yilan") {
+      for(let i=0;i<6;i++)bar(7+i*8,17,7,7,i===5?"#e8a838":"#3d9a62");bar(54,17,5,7,"#e25b4a");
+    } else if (id === "tugla") {
+      for(let r=0;r<2;r++)for(let x=0;x<4;x++)bar(5+x*14,5+r*8,12,6,r?"#e8a838":"#e25b4a");
+      bar(22,31,21,3,"#7ee0d2");bar(29,23,7,7,"#ffffff");
+    } else if (id === "tenis") {
+      bar(12,7,3,25,"#e8a838");bar(49,7,3,25,"#e25b4a");bar(25,18,14,4,"#fff0b5");bar(30,13,5,14,"#fff0b5");
+    } else if (id === "tank") {
+      bar(19,8,26,25,"#4f9b89");bar(27,3,10,20,"#b7f5c8");bar(30,1,4,13,"#e8a838");bar(12,12,7,17,"#293b32");bar(45,12,7,17,"#293b32");
+    } else if (id === "vardiya") {
+      bar(20,7,24,28,"#317d85");bar(24,10,16,7,"#b7d7d0");bar(15,10,4,7,"#e8a838");bar(45,10,4,7,"#e8a838");
+    } else if (id === "balon") {
+      ["#e25b4a","#e8a838","#69a5aa"].forEach((v,i)=>{g.fillStyle=v;g.beginPath();g.arc(15+i*18,14+(i%2)*5,8,0,Math.PI*2);g.fill();bar(14+i*18,22+(i%2)*5,2,8,"#cbbd9c");});
+    } else if (id === "refleks") {
+      g.strokeStyle="#80e59a";g.lineWidth=3;g.beginPath();g.arc(32,20,13,0,Math.PI*2);g.stroke();bar(30,5,4,30,"#e8a838");bar(17,18,30,4,"#e8a838");
+    } else if (id === "labirent") {
+      for(let y=0;y<4;y++)for(let x=0;x<7;x++)if((x+y)%2===0)bar(5+x*8,4+y*8,7,7,"#526e58");bar(53,28,6,6,"#e8a838");
+    } else if (id === "mayin") {
+      for(let y=0;y<3;y++)for(let x=0;x<4;x++)bar(9+x*12,4+y*10,10,8,"#6a8273");g.fillStyle="#e25b4a";g.beginPath();g.arc(33,18,5,0,Math.PI*2);g.fill();
+    } else if (id === "renk") {
+      ["#e25b4a","#e8a838","#5a9db1","#7eaa65"].forEach((v,i)=>bar(7+i*13,10,10,20,v));
+    } else if (id === "hafiza") {
+      for(let i=0;i<3;i++){bar(8+i*17,7,13,26,"#bca16b");bar(10+i*17,9,9,22,"#25332d");}
+      bar(13,15,4,10,"#e8a838");bar(30,15,4,10,"#7ee0d2");
+    } else if (id === "lira") {
+      bar(10,7,19,25,"#b58d55");bar(34,7,20,25,"#d9b77c");g.fillStyle="#332619";g.font="bold 17px monospace";g.fillText("₺",15,26);g.fillText("₺",39,26);
+    } else if (id === "dort") {
+      bar(8,5,48,30,"#23618a");for(let y=0;y<3;y++)for(let x=0;x<5;x++){g.fillStyle=(x+y)%2?"#e25b4a":"#e8a838";g.beginPath();g.arc(14+x*9,10+y*9,3,0,Math.PI*2);g.fill();}
+    } else if (id === "uctas") {
+      bar(20,5,2,30,"#a8b9ae");bar(42,5,2,30,"#a8b9ae");bar(10,14,44,2,"#a8b9ae");bar(10,25,44,2,"#a8b9ae");bar(15,8,8,8,"#e8a838");bar(39,27,8,8,"#7ee0d2");
+    } else if (id === "dart") {
+      [15,11,7,3].forEach((r,i)=>{g.beginPath();g.arc(32,20,r,0,Math.PI*2);g.fillStyle=i%2?"#e8a838":"#e25b4a";g.fill();});
+    } else if (id === "penalti") {
+      bar(9,5,46,25,"#e8e0c7");bar(12,8,40,19,"#34794a");bar(20,13,24,14,"#e8e0c7");bar(30,29,4,6,"#fff0b5");
+    }
     return c.toDataURL();
   }
-
   function setScore(s) {
     const el = $("g-score");
     if (el) el.textContent = "Skor: " + s;
@@ -144,30 +180,22 @@ globalThis.EKN = (function () {
 
   function buildLobby() {
     GAMES.forEach((g) => {
-      if (g.shelf === "lab") {
-        const el = document.createElement("button");
-        el.type = "button";
-        el.className = "card lab";
-        el.innerHTML = '<canvas width="64" height="40"></canvas><b>' + g.name.replace(/^Ergin Lab: /, "") + '</b><span>' + g.blurb + '</span>';
-        const ic = el.querySelector("canvas");
-        const img = new Image();
-        img.onload = () => { const c = ic.getContext("2d"); c.drawImage(img, 0, 0); };
-        img.src = paintIcon(g.id);
-        el.addEventListener("click", () => startGame(g.id));
-        const shelf = $("lab"); if (shelf) shelf.appendChild(el);
-        return;
-      }
       const el = document.createElement("button");
       el.type = "button";
-      el.className = "card";
-      el.innerHTML = '<b>' + g.name + '</b><span>' + g.blurb + '</span>';
+      el.className = "card" + (g.shelf === "lab" ? " lab" : "");
+      el.title = g.hint || g.blurb;
+      el.innerHTML = '<canvas width="64" height="40" aria-hidden="true"></canvas><b>' + g.name + '</b><span>' + g.blurb + '</span>';
+      const ic = el.querySelector("canvas");
+      const img = new Image();
+      img.onload = () => { const c = ic.getContext("2d"); c.drawImage(img, 0, 0); };
+      img.src = paintIcon(g.id);
       el.addEventListener("click", () => startGame(g.id));
-      const shelf = $(g.shelf); if (shelf) shelf.appendChild(el);
+      const shelf = $(g.shelf);
+      if (shelf) shelf.appendChild(el);
     });
     $("count").textContent = GAMES.length + " oyun";
     renderBests();
   }
-
   function loop(update, draw) {
     const my = ++gen;
     lastT = performance.now();
