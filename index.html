@@ -2,167 +2,128 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="author" content="Ergin Kaplan">
-<meta name="description" content="Ergin Kaplan Net — 2003 Kervan Mahallesi internet kafe. Özgün salon oyunları. © Ergin Kaplan">
-<title>Ergin Kaplan Net — 2003 İnternet Kafe</title>
+<meta name="description" content="Ergin Kaplan Net — 2003 Kervan Mahallesi internet kafe. Ergin Lab özgün salon oyunları.">
+<title>Ergin Kaplan Net · İnternet Kafe</title>
 <style>
-:root {
-  --bg: #0c100e;
-  --panel: #141a16;
-  --line: #2a3a2e;
-  --fg: #d4e0c8;
-  --muted: #7a8a70;
-  --amber: #e8a838;
-  --cyan: #5ec4b8;
-  --danger: #c45c4a;
-  --wood: #3d2e1e;
-}
-* { box-sizing: border-box; margin: 0; padding: 0; }
-html, body { height: 100%; background: var(--bg); color: var(--fg); font-family: "Courier New", monospace; }
-body { display: flex; flex-direction: column; min-height: 100vh; }
-.scanlines::after {
-  content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 9999;
-  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,.12) 2px, rgba(0,0,0,.12) 4px);
-}
-header {
-  background: linear-gradient(180deg, #1a2218, #0f1410);
-  border-bottom: 3px solid var(--amber);
-  padding: 10px 16px;
-  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;
-}
-.logo { font-size: 1.35rem; font-weight: bold; color: var(--amber); letter-spacing: 1px; text-shadow: 0 0 8px rgba(232,168,56,.4); }
-.logo small { display: block; font-size: .7rem; color: var(--muted); font-weight: normal; }
-.meta { font-size: .75rem; color: var(--muted); text-align: right; }
-.meta strong { color: var(--cyan); }
-main { flex: 1; display: flex; flex-direction: column; padding: 12px; max-width: 960px; margin: 0 auto; width: 100%; }
-.lobby { display: grid; grid-template-columns: 1fr 200px; gap: 12px; }
-@media (max-width: 700px) { .lobby { grid-template-columns: 1fr; } }
-.shelf { margin-bottom: 14px; }
-.shelf h2 {
-  font-size: .85rem; color: var(--amber); border-bottom: 1px solid var(--line);
-  padding-bottom: 4px; margin-bottom: 8px; letter-spacing: 2px; text-transform: uppercase;
-}
-.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; }
-.card {
-  background: var(--panel); border: 2px solid var(--line); border-radius: 4px;
-  padding: 10px 8px; cursor: pointer; transition: border-color .15s, transform .1s;
-  text-align: center; min-height: 72px; display: flex; flex-direction: column; justify-content: center;
-}
-.card:hover, .card:focus { border-color: var(--amber); transform: translateY(-2px); outline: none; }
-.card .name { font-size: .9rem; color: var(--fg); font-weight: bold; }
-.card .blurb { font-size: .7rem; color: var(--muted); margin-top: 4px; }
-.side {
-  background: var(--panel); border: 2px solid var(--wood); border-radius: 4px; padding: 10px;
-  font-size: .75rem;
-}
-.side h3 { color: var(--amber); margin-bottom: 6px; font-size: .8rem; }
-.side table { width: 100%; border-collapse: collapse; }
-.side td { padding: 2px 0; color: var(--muted); }
-.side td:last-child { text-align: right; color: var(--fg); }
-.sign { margin-top: 12px; padding-top: 8px; border-top: 1px dashed var(--line); color: var(--muted); font-size: .65rem; line-height: 1.4; }
-.game-view { display: none; flex-direction: column; height: 100%; }
-.game-view.active { display: flex; }
-.game-bar {
-  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
-  background: var(--panel); border: 2px solid var(--line); padding: 8px 12px; margin-bottom: 8px; border-radius: 4px;
-}
-.game-bar button {
-  background: var(--line); color: var(--fg); border: 1px solid var(--muted);
-  padding: 6px 12px; cursor: pointer; font-family: inherit; font-size: .8rem; border-radius: 3px;
-}
-.game-bar button:hover { border-color: var(--amber); color: var(--amber); }
-.game-bar .title { flex: 1; color: var(--amber); font-weight: bold; }
-.game-bar .score { color: var(--cyan); font-size: .85rem; }
-#stage-wrap {
-  position: relative; flex: 1; background: #000; border: 3px solid #333;
-  border-radius: 4px; overflow: hidden; min-height: 320px;
-  box-shadow: inset 0 0 40px rgba(0,0,0,.8);
-}
-#stage { display: block; width: 100%; height: 100%; image-rendering: pixelated; }
-.overlay {
-  position: absolute; inset: 0; background: rgba(0,0,0,.75);
-  display: none; align-items: center; justify-content: center; flex-direction: column; gap: 12px;
-  color: var(--fg); text-align: center; z-index: 10;
-}
-.overlay.show { display: flex; }
-.overlay h2 { color: var(--amber); font-size: 1.4rem; }
-.overlay p { color: var(--muted); font-size: .85rem; max-width: 280px; }
-.overlay button {
-  background: var(--amber); color: #111; border: none; padding: 10px 24px;
-  font-family: inherit; font-weight: bold; cursor: pointer; border-radius: 3px;
-}
-footer {
-  text-align: center; padding: 10px; font-size: .65rem; color: var(--muted);
-  border-top: 1px solid var(--line); background: #0a0e0b;
-}
-footer strong { color: var(--amber); }
-.hint { font-size: .7rem; color: var(--muted); margin-top: 6px; }
+:root{--crt:#0a1a0a;--amber:#e8a838;--green:#3d9a4a;--wood:#3a2a1a;--panel:#1a2a1a;--glow:rgba(232,168,56,.35)}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#0d0d0d;color:#c8d8c0;font-family:"Comic Sans MS","Comic Sans",cursive,system-ui;overflow:hidden}
+body{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;background:radial-gradient(ellipse at 50% 30%,#1a1208 0%,#0a0806 70%)}
+.desk{width:min(960px,100vw);padding:12px 16px 8px;background:linear-gradient(180deg,#4a3520,#2e2010 40%,#1f160c);border-radius:8px 8px 0 0;box-shadow:0 -4px 24px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,220,150,.15);position:relative}
+.monitor{background:#111;border:10px solid #222;border-radius:12px;box-shadow:0 0 0 3px #0a0a0a,0 12px 40px rgba(0,0,0,.7),inset 0 0 60px rgba(0,0,0,.5);position:relative;overflow:hidden}
+.bezel{padding:8px;background:#0a0a0a}
+.screen{position:relative;background:var(--crt);aspect-ratio:16/10;overflow:hidden;border:2px solid #1a2a1a}
+.scanlines{pointer-events:none;position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.15) 2px,rgba(0,0,0,.15) 4px);z-index:20;mix-blend-mode:multiply}
+.glow{pointer-events:none;position:absolute;inset:0;box-shadow:inset 0 0 80px var(--glow);z-index:19}
+#boot{position:absolute;inset:0;background:#000;z-index:30;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#3d9a4a;font-family:monospace;font-size:14px;text-align:center;padding:20px}
+#boot.gone{display:none}
+#lobby{position:absolute;inset:0;z-index:10;overflow:auto;padding:8px;background:linear-gradient(180deg,#0c1a0c,#0a120a)}
+.hero{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.hero button{flex:1;min-width:140px;background:linear-gradient(180deg,#2a3a1a,#1a2810);border:2px solid var(--amber);color:#ffd27a;padding:10px 8px;font-family:inherit;font-size:13px;cursor:pointer;border-radius:4px;text-shadow:0 0 6px var(--amber)}
+.hero button:hover{background:#3a4a20;box-shadow:0 0 12px var(--glow)}
+.hero button small{display:block;color:#8ea894;font-size:11px;margin-top:2px}
+.tabs{display:flex;gap:4px;margin-bottom:8px;flex-wrap:wrap}
+.tabs button{background:#1a2a1a;border:1px solid #2a3a2a;color:#8ea894;padding:6px 10px;font-family:inherit;font-size:12px;cursor:pointer;border-radius:3px}
+.tabs button.on{background:#2a3a1a;border-color:var(--amber);color:var(--amber)}
+.shelf{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:6px}
+.shelf button{background:#152015;border:1px solid #2a3a2a;color:#c8d8c0;padding:8px 6px;font-family:inherit;font-size:12px;cursor:pointer;border-radius:3px;text-align:left;min-height:56px}
+.shelf button:hover{border-color:var(--green);background:#1a2a1a}
+.shelf button b{display:block;color:#e8d8a0;font-size:12px}
+.shelf button span{font-size:10px;color:#6a8a6a}
+.price{font-size:11px;color:#8ea894;margin:6px 0;padding:4px 8px;background:#0a120a;border-left:3px solid var(--amber)}
+.bests{margin-top:8px;font-size:11px;color:#6a8a6a}
+.best-row{padding:2px 0;border-bottom:1px dotted #1a2a1a}
+#game-wrap{position:absolute;inset:0;z-index:5;display:none;background:#000}
+#game-wrap.on{display:block}
+canvas{display:block;width:100%;height:100%;image-rendering:pixelated;image-rendering:crisp-edges}
+.hud{position:absolute;top:4px;left:4px;right:4px;display:flex;justify-content:space-between;pointer-events:none;z-index:15;font-size:12px;color:#e8d8a0;text-shadow:0 1px 2px #000}
+.bar{position:absolute;bottom:0;left:0;right:0;height:36px;background:#0a120a;border-top:1px solid #1a2a1a;display:flex;align-items:center;gap:6px;padding:0 8px;z-index:16}
+.bar button{background:#1a2a1a;border:1px solid #2a3a2a;color:#c8d8c0;padding:4px 10px;font-family:inherit;font-size:12px;cursor:pointer;border-radius:3px}
+.bar button:hover{border-color:var(--amber);color:var(--amber)}
+.touch{position:absolute;bottom:40px;left:0;right:0;display:none;justify-content:center;gap:8px;z-index:17;pointer-events:none}
+.touch.on{display:flex}
+.touch button{pointer-events:auto;width:48px;height:48px;background:rgba(30,50,30,.7);border:2px solid #3d9a4a;color:#c8d8c0;border-radius:50%;font-size:18px;cursor:pointer}
+#end{position:absolute;inset:0;background:rgba(0,0,0,.75);z-index:25;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px}
+#end.on{display:flex}
+#end h2{color:var(--amber);font-size:22px;margin-bottom:8px}
+#end p{color:#8ea894;margin-bottom:12px}
+#end button{background:#2a3a1a;border:2px solid var(--amber);color:#ffd27a;padding:8px 20px;font-family:inherit;font-size:14px;cursor:pointer;border-radius:4px}
+.taskbar{width:min(960px,100vw);height:28px;background:linear-gradient(180deg,#2a2010,#1a1408);border-radius:0 0 6px 6px;display:flex;align-items:center;padding:0 10px;gap:12px;font-size:11px;color:#8a7a5a;box-shadow:0 4px 12px rgba(0,0,0,.4)}
+.taskbar .clock{margin-left:auto;font-family:monospace;color:#c8b890}
+.note{position:absolute;right:18px;top:18px;width:90px;background:#f5e6a8;color:#3a2a10;padding:8px;font-size:10px;transform:rotate(3deg);box-shadow:2px 2px 6px rgba(0,0,0,.4);z-index:5;pointer-events:none}
+.brand{font-size:10px;color:#5a4a30;letter-spacing:1px}
+@media (max-width:600px){.desk{padding:4px}.monitor{border-width:6px}.note{display:none}.hero button{min-width:110px;font-size:11px}}
 </style>
 </head>
-<body class="scanlines">
-<header>
-  <div class="logo">ERGİN KAPLAN NET <small>Kervan Mahallesi · Kaplan Sokak No: 7 · 2003</small></div>
-  <div class="meta">Masa 7 · <strong id="clock">--:--</strong><br>Çay bedava</div>
-</header>
-
-<main>
-  <div id="lobby" class="lobby">
-    <div>
-      <div class="shelf">
-        <h2>Arcade</h2>
-        <div class="grid" id="arcade"></div>
-      </div>
-      <div class="shelf">
-        <h2>Zeka</h2>
-        <div class="grid" id="zeka"></div>
-      </div>
-      <div class="shelf">
-        <h2>Masa</h2>
-        <div class="grid" id="masa"></div>
+<body>
+<div class="desk">
+  <div class="note">Kafe notu:<br>Ergin Lab<br>özgün IP<br>kopya yok!</div>
+  <div class="monitor">
+    <div class="bezel">
+      <div class="screen" id="screen">
+        <div class="scanlines"></div>
+        <div class="glow"></div>
+        <div id="boot">
+          <div style="margin-bottom:12px;font-size:18px;color:#e8a838">ERGİN KAPLAN NET</div>
+          <div>Kervan Mahallesi · 2003</div>
+          <div style="margin-top:16px;opacity:.7">BIOS v1.03 · RAM OK · HDD OK</div>
+          <div style="margin-top:8px">Salon yükleniyor...</div>
+          <div style="margin-top:20px;font-size:12px;color:#6a8a6a">Ergin Lab © Ergin Kaplan</div>
+        </div>
+        <div id="lobby">
+          <div class="hero">
+            <button data-game="yildiz"><b>Yıldız Koridoru</b><small>Uzay · ateş et</small></button>
+            <button data-game="ring"><b>Ring Kaplan</b><small>Karşılıklı dövüş</small></button>
+            <button id="btn-random"><b>Rastgele</b><small>Şansını dene</small></button>
+          </div>
+          <div class="tabs">
+            <button class="on" data-tab="arcade">Arcade</button>
+            <button data-tab="masa">Masa</button>
+            <button data-tab="zeka">Zeka</button>
+            <button data-tab="lab">Ergin Lab</button>
+          </div>
+          <div id="shelf-arcade" class="shelf"></div>
+          <div id="shelf-masa" class="shelf" style="display:none"></div>
+          <div id="shelf-zeka" class="shelf" style="display:none"></div>
+          <div id="shelf-lab" class="shelf" style="display:none"></div>
+          <div class="price">Fiyat listesi (2003): 30 dk = 1.500.000 TL · 1 saat = 2.500.000 TL · gece = 4.000.000 TL · çay ikram</div>
+          <div class="bests" id="bests"><div class="best-row">Rekorlar yükleniyor...</div></div>
+          <div style="margin-top:8px;font-size:11px;color:#5a6a5a">Oyun sayısı: <span id="count">—</span> · <button id="btn-clear" style="background:none;border:none;color:#6a5a4a;cursor:pointer;font-family:inherit;font-size:11px">rekorları sil</button> · <button id="btn-sound" style="background:none;border:none;color:#6a5a4a;cursor:pointer;font-family:inherit;font-size:11px">ses: açık</button></div>
+        </div>
+        <div id="game-wrap">
+          <canvas id="c" width="640" height="400"></canvas>
+          <div class="hud"><span id="score">0</span><span id="hint"></span></div>
+          <div class="touch" id="touch">
+            <button data-k="ArrowLeft">◀</button>
+            <button data-k="ArrowUp">▲</button>
+            <button data-k="ArrowDown">▼</button>
+            <button data-k="ArrowRight">▶</button>
+            <button data-k=" ">●</button>
+          </div>
+          <div class="bar">
+            <button id="btn-back">Salon</button>
+            <button id="btn-restart">Yeniden</button>
+            <span id="title" style="margin-left:8px;color:#8ea894;font-size:12px"></span>
+          </div>
+        </div>
+        <div id="end">
+          <h2 id="end-title">Bitti</h2>
+          <p id="end-msg"></p>
+          <button id="ov-btn">Tekrar</button>
+        </div>
       </div>
     </div>
-    <aside class="side">
-      <h3>Fiyat Listesi</h3>
-      <table>
-        <tr><td>Saat</td><td>1,00 TL</td></tr>
-        <tr><td>Gece</td><td>0,75 TL</td></tr>
-        <tr><td>Tost</td><td>1,50 TL</td></tr>
-        <tr><td>Kola</td><td>1,00 TL</td></tr>
-        <tr><td>Çay</td><td>bedava</td></tr>
-      </table>
-      <div class="sign">
-        Bu salon ve içindeki oyunlar<br>
-        <strong style="color:var(--amber)">Ergin Kaplan</strong>'a aittir.<br>
-        İzinsiz kopyalanamaz.
-      </div>
-    </aside>
   </div>
-
-  <div id="game-view" class="game-view">
-    <div class="game-bar">
-      <button type="button" id="btn-back">← Salon</button>
-      <span class="title" id="g-title">—</span>
-      <span class="score" id="g-score">Skor: 0</span>
-      <button type="button" id="btn-restart">Yeniden</button>
-    </div>
-    <div id="stage-wrap">
-      <canvas id="stage" width="480" height="360"></canvas>
-      <div class="overlay" id="overlay">
-        <h2 id="ov-title">Bitti</h2>
-        <p id="ov-msg"></p>
-        <button type="button" id="ov-btn">Tekrar Oyna</button>
-      </div>
-    </div>
-    <p class="hint" id="g-hint"></p>
-  </div>
-</main>
-
-<footer>
-  © <strong>Ergin Kaplan</strong> — Ergin Kaplan Net · 2003 Kervan Mahallesi<br>
-  Bu salon ve içindeki oyunlar Ergin Kaplan'a aittir. İzinsiz kopyalanamaz.
-</footer>
-
+</div>
+<div class="taskbar">
+  <span class="brand">ERGİN KAPLAN NET</span>
+  <span>· Kervan Mah. İnternet Kafe</span>
+  <span class="clock" id="clock">--:--</span>
+</div>
+<script src="salon.js"></script>
 <script src="games.js"></script>
+<script>globalThis.EKN.boot();</script>
 </body>
 </html>
