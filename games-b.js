@@ -238,7 +238,7 @@
   "use strict";
   const E=globalThis.EKN;
   if(!E)return;
-  const K=E.keys,P=E.pressed,M=E.pointer;
+  const K=E.keys,P=E.pressed,M=E.pointer,W=E.W,H=E.H;
   const hit=function(code){if(!P[code])return false;delete P[code];return true;};
   const click=function(){if(!M.click)return false;M.click=false;return true;};
   function finish(id,score,title,message){E.remember(id,score);E.showEnd(title,message);}
