@@ -43,7 +43,7 @@
       });
       traffic=traffic.filter(function(car){return car.z<1.2;});
       if(score>=checkpoint+500){checkpoint=score;boost=1.1;speed=Math.min(390,speed+35);E.sfx(780,0.13,"square",0.03);}
-      E.setScore(score+" m · "+Math.round(speed)+" km/s · hasar "+player.damage+"/3");
+      E.setScore(score+" m · "+Math.round(speed)+" km/sa · hasar "+player.damage+"/3");
       if(player.damage>=3&&!finished){finished=true;E.remember("kervangp",score);E.showEnd("YARIŞ BİTTİ · ERGİN GP","Mesafe: "+score+" m · En yüksek hız: "+Math.round(speed)+" · Yarış puanın kaydedildi.");}
     },function(){
       E.clear("#101721");const c=E.ctx;
