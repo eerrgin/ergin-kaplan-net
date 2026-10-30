@@ -8,7 +8,7 @@ Ergin Kaplan tarafından tasarlanan, tarayıcıda doğrudan oynanabilen 18 özg�
 **Oyun atölyesi:** Ergin Lab  
 **Tasarım ve kod:** Ergin Kaplan  
 **Dönem:** 2003 atmosferi  
-**Oyun sayısı:** 18
+**Oyun sayısı:** 20
 
 **Oyna:** https://eerrgin.github.io/ergin-kaplan-net/
 
@@ -25,6 +25,8 @@ Ergin Kaplan tarafından tasarlanan, tarayıcıda doğrudan oynanabilen 18 özg�
 - **Kaplan Tank** · Kervan Mahallesi savunma hattı.
 - **Gece Vardiyası** · Gece trafiğinde şerit değiştir.
 - **Balon Patlat** · 45 saniyede olabildiğince çok balon yakala.
+- **Disket Koşusu** · Disketleri koruyarak gece yolunda engellerden kaç.
+- **Kaset Ritmi** · A/S/D/F tuşlarıyla dört kanallı ritim oyununu tamamla.
 
 ### Zeka
 - **Refleks Testi** · Yeşil ışığı bekle, tepki süreni ölç.
@@ -48,7 +50,8 @@ Dosyalar:
 - `index.html` · CRT salonu, oyun listesi ve ekran.
 - `salon.js` · Girdi, oyun döngüsü, rekorlar ve salon arayüzü.
 - `games-a.js` · İlk dokuz oyun.
-- `games-b.js` · Son dokuz oyun.
+- `games-b.js` · 10–18 numaralı oyunlar.
+- `games-c.js` · Disket Koşusu ve Kaset Ritmi.
 
 Dosyaları aynı dizinde tut. Kişisel rekorlar tarayıcının `localStorage` alanında saklanır; başka bir sunucuya gönderilmez. Sesler Web Audio API ile anlık üretilir.
 
