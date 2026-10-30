@@ -153,7 +153,7 @@
       [p1, p2].forEach(function (p) { p.cooldown = Math.max(0, p.cooldown - dt); p.stun = Math.max(0, p.stun - dt); p.jump = Math.max(0, p.jump - dt); });
       if (!p1.stun) {
         if (K.KeyA || K.ArrowLeft) p1.x -= 175 * dt;
-        if (K.KeyD || K.ArrowRight) p1.x += 175 * dt;
+        if (K.KeyD) p1.x += 175 * dt;
         if (hit("KeyW") && p1.jump <= 0) p1.jump = 0.55;
         p1.face = p2.x > p1.x ? 1 : -1;
         if (hit("KeyF")) strike(p1, p2, 8, 65);
