@@ -11,7 +11,7 @@
 
   /* ERGİN BOWL 2003 */
   E.starters.bowling=function(){
-    let frame=1,shotNo=0,total=0,throws=[],aim=0,ball=null,phase="ready",pause=0;
+    let frame=1,shotNo=0,total=0,grandTotal=0,throws=[],aim=0,ball=null,phase="ready",pause=0;
     let pins=[];
     function resetPins(){const coords=[[0,0],[-14,19],[14,19],[-28,38],[0,38],[28,38],[-42,57],[-14,57],[14,57],[42,57]];
       pins=coords.map(function(p){return{x:320+p[0],y:106+p[1],down:false,fall:0,vx:0,vy:0};});}
@@ -41,12 +41,15 @@
       }else if(phase==="pause"){
         pause-=dt;
         if(pause<=0){
-          if(total===10||shotNo>=2||frame>=10){
-            frame++;shotNo=0;throws=[];resetPins();
+          if(total===10||shotNo>=2){
+            grandTotal+=total;
+            if(frame>=10){
+              E.remember("bowling",grandTotal*10);
+              E.showEnd("ERGİN BOWL · OYUN TAMAMLANDI","Devrilen kuka: "+grandTotal+"/100 · Tamamlanan tur: 10");
+              phase="done";return;
+            }
+            frame++;shotNo=0;throws=[];total=0;resetPins();
           }
-          if(frame>10){E.remember("bowling",total*100+throws.reduce(function(s,n){return s+n;},0));E.showEnd("ERGİN BOWL · OYUN TAMAMLANDI","Devrilen kuka: "+total+"/100 · Toplam atış: 20");return;}
-          if(total===10&&shotNo===1){shotNo=2;}
-          if(shotNo>=2){shotNo=0;throws=[];resetPins();total=0;}
           ball=null;phase="ready";
         }
       }
