@@ -2,13 +2,13 @@
 
 **Kervan Mahallesi, İstanbul · 2003 tarihli internet kafe atmosferi**
 
-Ergin Kaplan tarafından tasarlanan, tarayıcıda doğrudan oynanabilen 18 özgün mini oyundan oluşan bir oyun salonu. CRT ekran dili, yeşil fosfor, piksel çizimleri, eski internet kafe fiyat panosu ve aynı klavyede iki kişilik oyunlar tek bir sayfada buluşur.
+Ergin Kaplan tarafından tasarlanan, tarayıcıda doğrudan oynanabilen 24 özgün mini oyundan oluşan bir oyun salonu. CRT ekran dili, yeşil fosfor, piksel çizimleri, eski internet kafe fiyat panosu ve aynı klavyede iki kişilik oyunlar tek bir sayfada buluşur.
 
 **Salon:** Ergin Kaplan Net  
 **Oyun atölyesi:** Ergin Lab  
 **Tasarım ve kod:** Ergin Kaplan  
 **Dönem:** 2003 atmosferi  
-**Oyun sayısı:** 20
+**Oyun sayısı:** 24
 
 **Oyna:** https://eerrgin.github.io/ergin-kaplan-net/
 
@@ -42,6 +42,14 @@ Ergin Kaplan tarafından tasarlanan, tarayıcıda doğrudan oynanabilen 18 özg�
 - **Dart Ustası** · Beş atışta hedefi tuttur.
 - **Penaltı Nöbeti** · Beş penaltıda kaleciyi şaşırt.
 
+### Ergin Spor Kulübü
+- **Ergin Bowl 2003** · On turluk bowling, ayar verilebilir atış açısı ve devrilen kuka sayacı.
+- **Ergin 9-Ball Bilardo** · Fareyle nişan al, beyaz topa kuvvet ver, dokuz topu ceplere gönder.
+- **Ergin Tenis Kulübü** · Perspektif kort, raket kontrolü ve rakibe karşı puan maçı.
+
+### Ergin Motor & Yarış
+- **Ergin GP · Kervan Street** · Gece şehrinde pseudo-3B sokak yarışı, gaz, fren, direksiyon ve trafik.
+
 ## Çalıştırma
 
 Kurulum, derleme, sunucu veya hesap gerekmez. `index.html` dosyasını tarayıcıda açman yeterlidir. GitHub Pages üzerinde de statik dosyalar olarak çalışır.
@@ -52,6 +60,8 @@ Dosyalar:
 - `games-a.js` · İlk dokuz oyun.
 - `games-b.js` · 10–18 numaralı oyunlar.
 - `games-c.js` · Disket Koşusu ve Kaset Ritmi.
+- `ergin-spor.js` · Ergin Bowl, 9-Ball Bilardo ve Ergin Tenis.
+- `ergin-yaris.js` · Ergin GP sokak yarışı.
 
 Dosyaları aynı dizinde tut. Kişisel rekorlar tarayıcının `localStorage` alanında saklanır; başka bir sunucuya gönderilmez. Sesler Web Audio API ile anlık üretilir.
 
