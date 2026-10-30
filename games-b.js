@@ -236,3 +236,145 @@
     });
   };
 })();
+
+/* 15–18 · Dört Sıra, Üç Taş, Dart Ustası ve Penaltı Nöbeti */
+(function () {
+  "use strict";
+  const E=globalThis.EKN;
+  if(!E)return;
+  const K=E.keys,P=E.pressed,M=E.pointer;
+  const hit=function(code){if(!P[code])return false;delete P[code];return true;};
+  const click=function(){if(!M.click)return false;M.click=false;return true;};
+  function finish(id,score,title,message){E.remember(id,score);E.showEnd(title,message);}
+
+  /* 15 · Dört Sıra */
+  E.starters.dort=function(){
+    let board=Array.from({length:6},function(){return Array(7).fill(0);});
+    let turn=1,score=0,wait=0,ended=false,moves=0;
+    function drop(col,who){
+      if(col<0||col>6)return false;
+      for(let y=5;y>=0;y--)if(!board[y][col]){board[y][col]=who;return true;}
+      return false;
+    }
+    function win(who){
+      const dirs=[[1,0],[0,1],[1,1],[1,-1]];
+      for(let y=0;y<6;y++)for(let x=0;x<7;x++)if(board[y][x]===who){
+        for(const d of dirs){let n=1;for(let k=1;k<4;k++){let xx=x+d[0]*k,yy=y+d[1]*k;if(board[yy]&&board[yy][xx]===who)n++;else break;}if(n===4)return true;}
+      }
+      return false;
+    }
+    function pickCpu(){
+      for(let c=0;c<7;c++){const cp=board.map(function(r){return r.slice();});for(let y=5;y>=0;y--)if(!cp[y][c]){cp[y][c]=2;break;}const old=board;board=cp;const ok=win(2);board=old;if(ok)return c;}
+      for(let c=0;c<7;c++){const cp=board.map(function(r){return r.slice();});for(let y=5;y>=0;y--)if(!cp[y][c]){cp[y][c]=1;break;}const old=board;board=cp;const ok=win(1);board=old;if(ok)return c;}
+      return [3,2,4,1,5,0,6].find(function(c){return !board[0][c];});
+    }
+    E.loop(function(dt){
+      wait=Math.max(0,wait-dt);
+      if(turn===1&&click()&&!ended){
+        const col=Math.floor((M.x-145)/50);
+        if(drop(col,1)){moves++;if(win(1)){ended=true;score=1000-moves*5;finish("dort",score,"Dört Sıra","Dört taşı yan yana getirdin. Hamle: "+moves);}else if(board[0].every(Boolean)){ended=true;finish("dort",0,"Berabere","Tahta doldu.");}else{turn=2;wait=0.45;}}
+      }
+      if(turn===2&&wait===0&&!ended){
+        const col=pickCpu();if(col!=null)drop(col,2);moves++;
+        if(win(2)){ended=true;finish("dort",0,"Rıza kazandı","Bir sonraki oyunda orta sütunu kontrol et.");}
+        else if(board[0].every(Boolean)){ended=true;finish("dort",0,"Berabere","Tahta doldu.");}
+        else turn=1;
+      }
+      E.setScore("SEN "+board.flat().filter(function(v){return v===1;}).length+"  ·  RIZA "+board.flat().filter(function(v){return v===2;}).length);
+    },function(){
+      E.clear("#101927");E.text("DÖRT SIRA / KIRMIZI SENİN",320,10,13,"#e8c88d","center");
+      E.rect(145,42,350,310,"#23618a");
+      for(let y=0;y<6;y++)for(let x=0;x<7;x++){
+        const px=170+x*50,py=67+y*47;E.ctx.fillStyle=board[y][x]===1?"#e8a838":board[y][x]===2?"#e25b4a":"#101c2a";
+        E.ctx.beginPath();E.ctx.arc(px,py,17,0,Math.PI*2);E.ctx.fill();
+        E.ctx.strokeStyle="#5e8fb2";E.ctx.lineWidth=1;E.ctx.stroke();
+      }
+      E.text(turn===1?"SÜTUN SEÇ":"RAKİP DÜŞÜNÜYOR",320,370,12,"#a7c5d6","center");E.panel();
+    });
+  };
+
+  /* 16 · Üç Taş */
+  E.starters.uctas=function(){
+    let board=Array(9).fill(0),turn=1,wait=0,done=false,moves=0;
+    const lines=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+    function winner(who){return lines.some(function(line){return line.every(function(i){return board[i]===who;});});}
+    function choose(){
+      for(let i=0;i<9;i++)if(!board[i]){board[i]=2;const w=winner(2);board[i]=0;if(w)return i;}
+      for(let i=0;i<9;i++)if(!board[i]){board[i]=1;const w=winner(1);board[i]=0;if(w)return i;}
+      if(!board[4])return 4;
+      const corners=[0,2,6,8].filter(function(i){return !board[i];});
+      if(corners.length)return corners[E.irand(0,corners.length-1)];
+      return board.findIndex(function(v){return !v;});
+    }
+    E.loop(function(dt){
+      wait=Math.max(0,wait-dt);
+      if(turn===1&&click()&&!done){
+        const x=Math.floor((M.x-190)/87),y=Math.floor((M.y-65)/87),i=y*3+x;
+        if(x>=0&&x<3&&y>=0&&y<3&&!board[i]){board[i]=1;moves++;if(winner(1)){done=true;finish("uctas",1000-moves*30,"Üç Taş","Üç çizgiyi tamamladın.");}else if(board.every(Boolean)){done=true;finish("uctas",300,"Berabere","İki taraf da iyi oynadı.");}else{turn=2;wait=0.35;}}
+      }
+      if(turn===2&&wait===0&&!done){const i=choose();if(i>=0)board[i]=2;moves++;if(winner(2)){done=true;finish("uctas",0,"Rıza kazandı","Rövanş için yeniden başlat.");}else if(board.every(Boolean)){done=true;finish("uctas",300,"Berabere","İyi mücadele.");}else turn=1;}
+      E.setScore("HAMLE "+moves+" · "+(turn===1?"SIRA SENDE":"RAKİP"));
+    },function(){
+      E.clear("#17131a");E.text("ÜÇ TAŞ  /  X SEN · O RIZA",320,14,13,"#dfc58f","center");
+      for(let i=0;i<9;i++){const x=190+(i%3)*87,y=65+Math.floor(i/3)*87;E.rect(x,y,78,78,"#2d3034");E.rect(x+3,y+3,72,72,"#171f26");if(board[i])E.text(board[i]===1?"X":"O",x+39,y+18,38,board[i]===1?"#e8a838":"#7ec6c5","center");}
+      E.text(turn===1?"KUTU SEÇ":"RAKİP DÜŞÜNÜYOR",320,345,12,"#93a99c","center");E.panel();
+    });
+  };
+
+  /* 17 · Dart Ustası */
+  E.starters.dart=function(){
+    let throws=[],score=0,shots=0,last=0;
+    function scoreAt(x,y){
+      const r=Math.hypot(x-320,y-205);
+      if(r<9)return 50;if(r<22)return 25;if(r<43)return 15;if(r<68)return 10;if(r<98)return 5;return 0;
+    }
+    E.loop(function(){
+      if((click()||hit("Space"))&&shots<5){
+        const x=M.x,y=M.y,points=scoreAt(x,y);
+        throws.push({x:x,y:y,points:points});score+=points;shots++;last=points;E.sfx(points?580:160,0.07,points?"triangle":"square",0.03);
+        if(shots===5)finish("dart",score,"Atış tamamlandı","Beş atışta "+score+" puan. Son atış: "+last);
+      }
+      E.setScore(score+" puan · "+shots+"/5 atış");
+    },function(){
+      E.clear("#101719");E.text("DART USTASI  /  BEŞ ATIŞ HAKKIN VAR",320,14,12,"#d7c28c","center");
+      E.ctx.fillStyle="#263f3e";E.ctx.beginPath();E.ctx.arc(320,205,112,0,Math.PI*2);E.ctx.fill();
+      [[98,"#b34d42"],[68,"#e8a838"],[43,"#b34d42"],[22,"#e8a838"],[9,"#f5e2a9"]].forEach(function(r){E.ctx.beginPath();E.ctx.arc(320,205,r[0],0,Math.PI*2);E.ctx.fillStyle=r[1];E.ctx.fill();});
+      E.ctx.strokeStyle="#e7d9bd";E.ctx.lineWidth=1;E.ctx.beginPath();E.ctx.moveTo(205,205);E.ctx.lineTo(435,205);E.ctx.moveTo(320,90);E.ctx.lineTo(320,320);E.ctx.stroke();
+      throws.forEach(function(t,i){E.ctx.fillStyle="#101010";E.ctx.beginPath();E.ctx.arc(t.x,t.y,4,0,Math.PI*2);E.ctx.fill();E.text(String(i+1),t.x+7,t.y-10,10,"#fff0b6");});
+      E.text("MERKEZ 50  /  İÇ HALKA 25  /  DIŞ HALKA 5",320,350,10,"#9aab9e","center");E.panel();
+    });
+  };
+
+  /* 18 · Penaltı Nöbeti */
+  E.starters.penalti=function(){
+    let goals=0,saves=0,kick=0,shots=0,phase=0,shotTimer=0,ball=null,keeper=320,keeperAim=320,result="";
+    function take(x,y){
+      if(shots>=5||phase>0)return;
+      const tx=Math.max(170,Math.min(470,x)),ty=Math.max(96,Math.min(235,y));
+      keeperAim=E.rand(205,435);keeper=320;ball={x:320,y:330,tx:tx,ty:ty};
+      const blocked=Math.hypot(tx-keeperAim,ty-160)<48;
+      result=blocked?"KALECİ ÇIKARDI":"GOOOL!";
+      if(blocked)saves++;else goals++;
+      kick++;shots++;phase=0.65;
+      E.sfx(blocked?190:680,0.12,blocked?"sawtooth":"triangle",0.04);
+    }
+    E.loop(function(dt){
+      if(phase>0){phase-=dt;const f=1-Math.max(0,phase)/0.65;keeper=320+(keeperAim-320)*Math.min(1,f*2);if(ball){ball.x=320+(ball.tx-320)*f;ball.y=330+(ball.ty-330)*f;}}
+      else if(click()||hit("Space"))take(M.click?M.x:320,M.click?M.y:155);
+      E.setScore("GOL "+goals+" · KURTARIŞ "+saves+" · "+shots+"/5");
+      if(shots===5&&phase<=0)finish("penalti",goals*200+saves*20,"Penaltı tamamlandı",goals+" gol · "+saves+" kurtarış · 5 vuruş");
+    },function(){
+      E.clear("#10251b");E.rect(0,0,W,H,"#17452b");for(let y=0;y<H;y+=38)E.rect(0,y,W,1,"rgba(255,255,255,.08)");
+      E.rect(145,65,350,190,"#e8dfc2");E.rect(154,74,332,172,"#4c9b62");E.rect(164,84,312,152,"#327b4b");
+      for(let i=1;i<8;i++)E.rect(164+i*39,84,1,152,"rgba(255,255,255,.16)");
+      E.rect(230,98,180,92,"none");E.ctx.strokeStyle="#e8e2c9";E.ctx.lineWidth=3;E.ctx.strokeRect(230,98,180,92);
+      E.rect(keeper-23,145,46,17,"#e8a838");E.rect(keeper-19,127,38,20,"#b98562");E.rect(keeper-28,159,15,25,"#f0e7d5");E.rect(keeper+13,159,15,25,"#f0e7d5");
+      if(ball){E.ctx.fillStyle="#fff2d2";E.ctx.beginPath();E.ctx.arc(ball.x,ball.y,7,0,Math.PI*2);E.ctx.fill();}
+      else{E.ctx.fillStyle="#fff2d2";E.ctx.beginPath();E.ctx.arc(320,330,7,0,Math.PI*2);E.ctx.fill();}
+      E.text("PENALTI NÖBETİ  /  HEDEFİ SEÇ",320,15,13,"#d7dfae","center");
+      if(result&&phase>0)E.text(result,320,280,18,result==="GOOOL!"?"#f2d47d":"#ff9d84","center");
+      if(phase<=0)E.text(shots<5?"KALEDE BOŞLUK BUL VE TIKLA":"SONUÇ HAZIR",320,380,11,"#c7d8ae","center");
+      E.panel();
+    });
+  };
+})();
