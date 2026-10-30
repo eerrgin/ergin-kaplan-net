@@ -15,11 +15,7 @@
     M.click = false;
     return true;
   };
-  const rightClick = function () {
-    if (!M.right) return false;
-    M.right = false;
-    return true;
-  };
+  const rightClick = function () { return !!M.right; };
   const clamp = function (v, a, b) { return Math.max(a, Math.min(b, v)); };
   function finish(id, score, title, message) {
     E.remember(id, score);
@@ -60,7 +56,7 @@
       if(dx||dy){const nx=player.x+dx,ny=player.y+dy;if(maze[ny]&&maze[ny][nx]===0){player.x=nx;player.y=ny;moves++;}}
       coins.forEach(function(c){if(!c.got&&c.x===player.x&&c.y===player.y){c.got=true;score+=50;E.sfx(620,0.07,"triangle",0.03);}});
       E.setScore(score+" fiş · "+coins.filter(function(c){return c.got;}).length+"/4");
-      if(player.x===exit.x&&player.y===exit.y&&coins.every(function(c){return c.got;}))finish("Çıkışı buldun",score+ " puan · "+moves+" adım · "+Math.round(elapsed)+" saniye","Nöbet Labirenti");
+      if(player.x===exit.x&&player.y===exit.y&&coins.every(function(c){return c.got;}))finish("labirent",score,"Çıkışı buldun",score+ " puan · "+moves+" adım · "+Math.round(elapsed)+" saniye");
     },function(){
       E.clear("#09140e");
       for(let y=0;y<rows;y++)for(let x=0;x<cols;x++){
@@ -91,11 +87,11 @@
     function reveal(x,y){
       const c=board[y]&&board[y][x];if(!c||c.open||c.flag||over)return;
       if(!ready)build(x,y);
-      if(c.mine){c.open=true;over=true;finish("Mayına bastın", "Açılan kare: "+opened+" · İşaret: "+flags,"Mayın Tarlası","Mayın sayısı: "+mines);return;}
+      if(c.mine){c.open=true;over=true;finish("mayin",opened*5,"Mayına bastın","Açılan kare: "+opened+" · İşaret: "+flags+" · Mayın sayısı: "+mines);return;}
       const queue=[[x,y]];
       while(queue.length){const p=queue.pop(),q=board[p[1]][p[0]];if(!q||q.open||q.flag||q.mine)continue;q.open=true;opened++;if(q.n===0){for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){const nx=p[0]+dx,ny=p[1]+dy;if(board[ny]&&board[ny][nx]&&!board[ny][nx].open)queue.push([nx,ny]);}}}
       score=opened*5;E.sfx(360,0.04,"triangle",0.02);
-      if(opened===cols*rows-mines){over=true;finish("Alan temizlendi", "Bütün güvenli kareleri buldun. "+score+" puan.","Mayın Tarlası");}
+      if(opened===cols*rows-mines){over=true;finish("mayin",score,"Alan temizlendi","Bütün güvenli kareleri buldun. "+score+" puan.");}
     }
     E.loop(function(){
       if(click()||rightClick()){
@@ -191,7 +187,7 @@
         }
       }
       E.setScore(pairs+" / 8 çift · "+moves+" hamle");
-      if(pairs===8)finish("Hepsi eşleşti", "Sekiz çift "+moves+" hamlede bulundu. Puan: "+score,"Hafıza Kartları");
+      if(pairs===8)finish("hafiza",score,"Hepsi eşleşti","Sekiz çift "+moves+" hamlede bulundu. Puan: "+score);
     },function(){
       E.clear("#15131b");E.text("HAFIZA / MASANIN ÜSTÜNDEKİ KARTLAR",320,15,12,"#d4bf8d","center");
       cards.forEach(function(c,i){const x=122+(i%4)*99,y=75+Math.floor(i/4)*103;E.rect(x,y,82,87,c.done?"#31493b":"#3b3030");E.rect(x+4,y+4,74,79,c.done?"#192c24":c.open?"#292d34":"#1d222c");if(c.open||c.done){E.text(c.v,x+41,y+26,28,c.done?"#8de0a4":"#e8c889","center");E.rect(x+25,y+65,32,2,"#8c8062");}else{E.rect(x+18,y+20,46,46,"#563b32");E.text("EK",x+41,y+31,17,"#e8a838","center");}});
@@ -225,7 +221,7 @@
       else if(hit("ArrowUp")||hit("KeyW"))move("up");
       else if(hit("ArrowDown")||hit("KeyS"))move("down");
       E.setScore(score.toLocaleString("tr-TR")+" TL · "+turns+" hamle");
-      if(!canMove())finish("Kasa doldu", "Toplam birikim: "+score+" eski lira.","Lira Yığ");
+      if(!canMove())finish("lira",score,"Kasa doldu","Toplam birikim: "+score+" eski lira.");
     },function(){
       E.clear("#15120f");E.text("LİRA YIĞ  /  AYNI DEĞERLERİ BİRLEŞTİR",320,12,12,"#e5c78e","center");
       for(let y=0;y<4;y++)for(let x=0;x<4;x++){
@@ -360,7 +356,7 @@
     }
     E.loop(function(dt){
       if(phase>0){phase-=dt;const f=1-Math.max(0,phase)/0.65;keeper=320+(keeperAim-320)*Math.min(1,f*2);if(ball){ball.x=320+(ball.tx-320)*f;ball.y=330+(ball.ty-330)*f;}}
-      else if(click()||hit("Space"))take(M.click?M.x:320,M.click?M.y:155);
+      else if(M.click){const x=M.x,y=M.y;M.click=false;take(x,y);}else if(hit("Space"))take(M.x||320,M.y||155);
       E.setScore("GOL "+goals+" · KURTARIŞ "+saves+" · "+shots+"/5");
       if(shots===5&&phase<=0)finish("penalti",goals*200+saves*20,"Penaltı tamamlandı",goals+" gol · "+saves+" kurtarış · 5 vuruş");
     },function(){
