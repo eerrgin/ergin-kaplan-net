@@ -1,60 +1,63 @@
-# Ergin Kaplan Net
+# Kervan 2003 · Ergin Kaplan Net
 
-**2003 Kervan Mahallesi internet kafe salonu — Ergin Lab**
+**Kervan Mahallesi, İstanbul · 2003 tarihli internet kafe atmosferi**
 
-Tarayıcıda açılan özgün oyun salonu. Kurulum yok, sunucu yok, derleme yok.
-Tüm oyunlar bu depoda sıfırdan yazıldı. Başka oyunun adı, kahramanı, resmi veya kodu yok.
+Ergin Kaplan tarafından tasarlanan, tarayıcıda doğrudan oynanabilen 18 özgün mini oyundan oluşan bir oyun salonu. CRT ekran dili, yeşil fosfor, piksel çizimleri, eski internet kafe fiyat panosu ve aynı klavyede iki kişilik oyunlar tek bir sayfada buluşur.
 
-**Salon sahibi:** Ergin Kaplan  
-**Atölye:** Ergin Lab  
-**Adres:** Kervan Mahallesi, Kaplan Sokak No: 7  
-**Yıl:** 2003
+**Salon:** Ergin Kaplan Net  
+**Oyun atölyesi:** Ergin Lab  
+**Tasarım ve kod:** Ergin Kaplan  
+**Dönem:** 2003 atmosferi  
+**Oyun sayısı:** 18
 
-> Bu salon ve içindeki oyunlar Ergin Kaplan'a aittir. İzinsiz kopyalanamaz.
-
-## Oyunlar (18)
+## Oyun kataloğu
 
 ### Ergin Lab
-- **Yıldız Koridoru** — uzayda uç, hedefi vur, müdür gemisini düşür
-- **Ring Kaplan** — Kaplan vs Rıza, aynı klavyede karşılıklı dövüş (istersen ikinci oyuncu)
+- **Yıldız Koridoru** · Uzayda uçuş, düşman dalgaları ve bölüm sonu gemisi.
+- **Ring Kaplan** · Aynı klavyede iki kişilik mahalle dövüşü.
 
 ### Arcade
-- **Ergin Yılan** — çay bardağını kovala
-- **Tuğla Duvarı** — Kaplan raketi, üç bölüm
-- **Masa Tenisi** — Rıza ile ilk 7 sayı
-- **Kaplan Tank** — mahalle savunması
-- **Gece Vardiyası** — Kaplan Sokak, şerit değiştir
-- **Balon Patlat** — gold puan, siyah ceza
-- **Refleks** — hedefe bas, erken basma
+- **Ergin Yılan** · Çay bardağını topla, duvara çarpma.
+- **Tuğla Duvarı** · Raketle tuğlaları kır.
+- **Mahalle Tenisi** · Rıza'ya karşı ilk yedi sayı.
+- **Kaplan Tank** · Kervan Mahallesi savunma hattı.
+- **Gece Vardiyası** · Gece trafiğinde şerit değiştir.
+- **Balon Patlat** · 45 saniyede olabildiğince çok balon yakala.
 
 ### Zeka
-- **Nöbet Labirenti** — fişleri topla, hırsızdan kaç
-- **Mayın Tarlası** — ilk tık güvenli, sağ tık bayrak
-- **Renk Patlat** — aynı renk grubunu patlat
-- **Hafıza** — sekiz çifti az hamlede bul
-- **Lira Yığ** — eski milyonları birleştir
+- **Refleks Testi** · Yeşil ışığı bekle, tepki süreni ölç.
+- **Nöbet Labirenti** · Dört fişi topla ve çıkışı bul.
+- **Mayın Tarlası** · İlk açılış güvenli, bayraklı kareler.
+- **Renk Patlat** · Komşu taşları takas ederek üçlü eşleştir.
+- **Hafıza Kartları** · Sekiz kart çiftini bul.
+- **Lira Yığ** · Aynı değerleri birleştirerek eski lira bakiyesini büyüt.
 
 ### Masa
-- **Dört Sıra** — dörtü yan yana diz, Rıza karşıda
-- **Üç Taş** — seri kovala
-- **Dart** — yatay ve dikeyi durdur
-- **Penaltı** — köşe seç, gücü yeşil şeritte bırak
+- **Dört Sıra** · Rıza'ya karşı dört taşı hizala.
+- **Üç Taş** · X ve O ile kısa bir masa maçı.
+- **Dart Ustası** · Beş atışta hedefi tuttur.
+- **Penaltı Nöbeti** · Beş penaltıda kaleciyi şaşırt.
 
 ## Çalıştırma
 
-`index.html` dosyasını tarayıcıda aç. Dosyalar yan yana durmalı:
+Kurulum, derleme, sunucu veya hesap gerekmez. `index.html` dosyasını tarayıcıda açman yeterlidir. GitHub Pages üzerinde de statik dosyalar olarak çalışır.
 
-- `salon.js` — salon motoru
-- `games.js` — tüm oyunlar
+Dosyalar:
+- `index.html` · CRT salonu, oyun listesi ve ekran.
+- `salon.js` · Girdi, oyun döngüsü, rekorlar ve salon arayüzü.
+- `games-a.js` · İlk dokuz oyun.
+- `games-b.js` · Son dokuz oyun.
 
-GitHub Pages için depoyu Pages kaynağı yap. Site `index.html` üzerinden açılır.
+Dosyaları aynı dizinde tut. Kişisel rekorlar tarayıcının `localStorage` alanında saklanır; başka bir sunucuya gönderilmez. Sesler Web Audio API ile anlık üretilir.
 
-## İmza
+## Teknik ve içerik notu
 
-```
-© Ergin Kaplan — Ergin Kaplan Net — Ergin Lab
-Bu salon ve içindeki oyunlar Ergin Kaplan'a aittir.
-İzinsiz kopyalanamaz, satılamaz, dağıtılamaz.
-```
+Oyun mantıkları, piksel görselleri ve ses efektleri bu proje için özgün biçimde yazılmıştır. Oyun görselleri canvas üzerinde çizilir; harici görsel, müzik, oyun ROM'u, üçüncü taraf oyun motoru veya uzaktaki çalışma zamanı kütüphanesi yüklenmez. Proje ağ bağlantısı olmadan da çalışacak şekilde hazırlanmıştır.
 
-Öğrenci grupları eğitim amaçlı bakabilir. İmza silinmez. Türev için yazılı izin gerekir.
+Bu açıklama hukuki riskin sıfır olduğunu garanti etmez. Oyuncu adı, marka, karakter, görsel veya müzik gibi üçüncü taraf unsurlar eklenmeden özgün içerikle sınırlandırılmıştır. Yeni içerik eklerken kullanılan her varlığın lisansını ayrıca kontrol et.
+
+## Hak sahipliği
+
+© Ergin Kaplan · Ergin Kaplan Net · Ergin Lab
+
+Bu depo **UNLICENSED** olarak yayımlanır. Kaynak kod ve özgün içerik için ayrıca yazılı izin verilmedikçe kopyalama, dağıtma, satma, değiştirme ve ticari kullanım izni verilmez. Eğitim amaçlı inceleme, bu hakları devretmez.
