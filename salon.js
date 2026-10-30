@@ -257,7 +257,7 @@ globalThis.EKN = (function () {
   function updateTouch() {
     const t = $("touch");
     if (!t) return;
-    const need = current && /yildiz|yilan|tugla|tenis|tank|vardiya|labirent|lira/.test(current);
+    const need = current && /yildiz|yilan|tugla|tenis|tank|vardiya|labirent|lira|disket/.test(current);
     t.classList.toggle("on", !!need && ("ontouchstart" in window || navigator.maxTouchPoints > 0));
   }
 
