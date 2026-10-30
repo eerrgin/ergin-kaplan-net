@@ -88,10 +88,8 @@
     function rack(){
       balls=[{id:0,x:180,y:200,vx:0,vy:0,c:"#f1e6cb",active:true}];
       const palette=["#e7c84d","#3978b8","#c94e43","#8051a7","#dc8d35","#3e9a73","#b84c52","#302e32","#dfdfd5"];
-      let id=1;
-      for(let row=0;row<3;row++)for(let col=0;col<=row;col++){
-        balls.push({id:id,x:415+row*16,y:172+row*16-col*32,vx:0,vy:0,c:palette[(id-1)%palette.length],active:true});id++;
-      }
+      const rack=[[0,0],[-15,16],[15,16],[-30,32],[0,32],[30,32],[-15,48],[15,48],[0,64]];
+      rack.forEach(function(p,id){balls.push({id:id+1,x:420+p[0],y:167+p[1],vx:0,vy:0,c:palette[id],active:true});});
     }
     rack();
     function anyMoving(){return balls.some(function(b){return b.active&&moving(b);});}
@@ -147,7 +145,7 @@
       holes.forEach(function(h){c.fillStyle="#090a0a";c.beginPath();c.arc(h[0],h[1],17,0,Math.PI*2);c.fill();c.fillStyle="#765239";c.beginPath();c.arc(h[0],h[1],11,0,Math.PI*2);c.fill();});
       balls.forEach(function(b){if(!b.active)return;c.fillStyle="rgba(0,0,0,.24)";c.beginPath();c.arc(b.x+2,b.y+3,r,0,Math.PI*2);c.fill();c.fillStyle=b.c;c.beginPath();c.arc(b.x,b.y,r,0,Math.PI*2);c.fill();c.fillStyle="rgba(255,255,255,.65)";c.beginPath();c.arc(b.x-3,b.y-3,2.5,0,Math.PI*2);c.fill();if(b.id>0){c.fillStyle="#101010";c.font="8px monospace";c.textAlign="center";c.fillText(b.id,b.x,b.y+3);}});
       if(cue.active&&!anyMoving()){c.strokeStyle="#e6c78c";c.lineWidth=3;c.beginPath();c.moveTo(cue.x-aim.x*85,cue.y-aim.y*85);c.lineTo(cue.x-aim.x*15,cue.y-aim.y*15);c.stroke();c.strokeStyle="rgba(255,255,255,.35)";c.lineWidth=1;c.beginPath();c.moveTo(cue.x,cue.y);c.lineTo(cue.x+aim.x*160,cue.y+aim.y*160);c.stroke();}
-      E.text("ERGİN 8-BALL  /  BİLARDO MASASI",320,9,13,"#e6cd97","center");E.text("FAREYLE NİŞAN AL · TIKLA / SPACE İLE VUR",320,380,10,"#a8c4a7","center");E.panel();
+      E.text("ERGİN 9-BALL  /  BİLARDO MASASI",320,9,13,"#e6cd97","center");E.text("FAREYLE NİŞAN AL · TIKLA / SPACE İLE VUR",320,380,10,"#a8c4a7","center");E.panel();
     });
   };
 
